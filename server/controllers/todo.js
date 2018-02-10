@@ -6,7 +6,6 @@ class todoController {
   }
 
   static create(req,res){
-    console.log(req.headers.id);
     let newTodo = {
       name : req.body.name,
       duedate : new Date(),

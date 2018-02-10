@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 class UserController {
   static login(req,res){
     User.findOne({
-      email : req.body.email
+      email : req.body.data.email
     })
     .then(user => {
       if (user) {
@@ -12,15 +12,15 @@ class UserController {
           data: user
         }, 'secret', { expiresIn: '1h' }, function(err, tokenJwt){
           res.status(200).send({
-            msg : `${req.body.name} is log in`,
+            msg : `${req.body.data.name} is log in`,
             tokenJwt
           })
         });
       } else {
         let newUser = {
-          name : req.body.name,
-          email : req.body.email,
-          picture : req.body.picture
+          name : req.body.data.name,
+          email : req.body.data.email,
+          picture : req.body.data.picture
         }
         User.create(newUser)
         .then(user => {
@@ -54,27 +54,6 @@ class UserController {
     })
   }
 
-  static register(req,res){
-    let newUser = {
-      email : req.body.email,
-      password : req.body.password,
-      fullName : req.body.fullName,
-      phone : req.body.phone
-    }
-    User.create(newUser)
-    .then(user => {
-      res.status(200).send({
-        msg:'user has been created',
-        data : user
-      })
-    })
-    .catch(err=>{
-      res.status(500).send({
-        msg: 'register error',
-        err
-      })
-    })
-  }
 
   static findAll(req,res){
     User.find().
