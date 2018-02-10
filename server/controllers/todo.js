@@ -1,15 +1,12 @@
 const todo = require('../models/todo');
 
+
 class todoController {
-  constructor() {
-
-  }
-
   static create(req,res){
     let newTodo = {
-      name : req.body.name,
+      name : req.headers.token.data.name,
       duedate : new Date(),
-      userId : req.headers.id,
+      userId : req.headers.token.data._id,
       status : false
     }
     todo.create(newTodo)
@@ -99,6 +96,7 @@ class todoController {
 
   static findComplete(req,res){
     todo.find({
+      userId : req.headers.token.data._id,
       status : true
     })
     .then(todo => {
