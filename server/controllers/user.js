@@ -2,10 +2,6 @@ const User = require('../models/user');
 var jwt = require('jsonwebtoken');
 
 class UserController {
-  constructor() {
-
-  }
-
   static login(req,res){
     User.findOne({
       email : req.body.email
@@ -76,6 +72,16 @@ class UserController {
       res.status(500).send({
         msg: 'register error',
         err
+      })
+    })
+  }
+
+  static findAll(req,res){
+    User.find().
+    then(response => {
+      res.status(200).send({
+        msg : 'user list',
+        data : response
       })
     })
   }

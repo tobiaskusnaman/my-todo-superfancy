@@ -10,7 +10,7 @@ var toDoSchema = new Schema({
   dueDate : Date,
   status : Boolean,
   createdAt: { type: Date, default: Date.now },
-  userId: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  userId: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
 module.exports = mongoose.model('toDo', toDoSchema)
