@@ -8,7 +8,7 @@ var UserSchema = new Schema({
   email : String,
   name : String,
   picture : String,
-  managerId : { type : Schema.Types.ObjectId, ref: 'User'},
+  role : String,
 });
 
 module.exports = mongoose.model('User', UserSchema)

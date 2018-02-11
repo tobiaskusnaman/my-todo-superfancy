@@ -1,4 +1,5 @@
 const User = require('../models/user');
+// const Manager = require('../models/manager');
 var jwt = require('jsonwebtoken');
 
 class UserController {
@@ -7,7 +8,7 @@ class UserController {
       email : req.body.data.email
     })
     .then(user => {
-      if (user) {
+      if (user !== null) {
         jwt.sign({
           data: user
         }, 'secret', { expiresIn: '1h' }, function(err, tokenJwt){
@@ -17,32 +18,53 @@ class UserController {
           })
         });
       } else {
+
         let newUser = {
           name : req.body.data.name,
           email : req.body.data.email,
-          picture : req.body.data.picture
+          picture : req.body.data.picture.data.url
         }
-        User.create(newUser)
-        .then(user => {
-          jwt.sign({ data : user }, 'secret', function(err, tokenJwt) {
-            if (!err && tokenJwt) {
-              res.status(200).send({
-                msg : 'user has been created',
-                tokenJwt
-              })
+
+        var keyValidation = new Promise(function(resolve, reject) {
+          if (req.body.managerKey) {
+            if (req.body.managerKey.toLowerCase() == 'manager') {
+              resolve(newUser.role = 'manager')
             } else {
-              res.status(500).send({
-                msg : 'jwt error',
-                err
-              })
+              reject('incorrect key')
             }
-          });
-        })
-        .catch(err=>{
-          res.status(500).send({
-            msg : 'register failed',
-            err
+          } else {
+            resolve(newUser.role = 'employee')
+          }
+        });
+
+        keyValidation.then(response => {
+          console.log(response);
+          User.create(newUser)
+          .then(user => {
+            jwt.sign({ data : user }, 'secret', function(err, tokenJwt) {
+              if (!err && tokenJwt) {
+                res.status(200).send({
+                  msg : 'user has been created',
+                  tokenJwt
+                })
+              } else {
+                res.status(500).send({
+                  msg : 'jwt error',
+                  err
+                })
+              }
+            });
           })
+          .catch(err=>{
+            res.status(500).send({
+              msg : 'register failed',
+              err
+            })
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).send(err)
         })
       }
     })
@@ -64,7 +86,6 @@ class UserController {
       })
     })
   }
-
 
 }
 

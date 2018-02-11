@@ -1,9 +1,7 @@
 function logOut(){
     FB.logout(response=>{
       localStorage.clear();
-      console.log('You have logged out');
-      $('#logoutMsg').append("<p> You have logged out </p>")
-      $('#status').hide();
+      document.getElementById('status').innerHTML = 'You have logged out';
       $('#logInPop').show()
       $('#logoutButton').hide()
     })
@@ -12,14 +10,9 @@ function logOut(){
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
     if (response.status == 'connected') {
       $('#logInPop').hide()
       $('#logoutButton').show()
-      // Logged into your app and Facebook.
       testAPI();
     } else {
       // The person is not logged into your app or we are unable to tell.
@@ -28,9 +21,6 @@ function logOut(){
     }
   }
 
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
@@ -62,16 +52,18 @@ function logOut(){
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', {fields : 'id,name,email,picture'},function(response) {
       console.log('Successful login for: ' + response.name);
+
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
+        console.log('Manager Key :',$('#manager-key').val());
+
         axios.post('http://localhost:3000/',{
-          data:response
+          data:response,
+          managerKey : $('#manager-key').val()
         })
         .then(response => {
           localStorage.setItem('tokenJwt',response.data.tokenJwt)
