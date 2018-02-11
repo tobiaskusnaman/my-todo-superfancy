@@ -1,8 +1,9 @@
 function logOut(){
     FB.logout(response=>{
       localStorage.clear();
+      console.log('You have logged out');
       $('#logoutMsg').append("<p> You have logged out </p>")
-      $('#logoutMsg').hide();
+      $('#status').hide();
       $('#logInPop').show()
       $('#logoutButton').hide()
     })
@@ -15,7 +16,7 @@ function logOut(){
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
     // for FB.getLoginStatus().
-    if (response.status === 'connected') {
+    if (response.status == 'connected') {
       $('#logInPop').hide()
       $('#logoutButton').show()
       // Logged into your app and Facebook.

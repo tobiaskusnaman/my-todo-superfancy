@@ -14,7 +14,13 @@
   <fb:login-button id="logInPop"scope="public_profile,email" onlogin="checkLoginState();">
   </fb:login-button>
   <br>
+  <div id="status">
+  </div>
   <a class="button is-danger" id="logoutButton" onclick="logOut()">Logout</a>
+  <br>
+  <br>
+  <br>
+
     <a class="button is-black" onclick="create()">Create</a>
     <a class="button is-primary" onclick="findAlltodo()">find all to do</a>
 
@@ -23,11 +29,6 @@
     <a class="button is-danger" onclick="findIncomplete()">findIncomplete</a>
 
     <br>
-    <a class="button is-link">findById</a>
-    <a class="button is-info">edit</a>
-    <a class="button is-success">remove</a>
-    <a class="button is-dark">complete</a>
-    <a class="button is-black">incomplete</a>
 
     <div id="logoutMsg">
 
@@ -40,8 +41,7 @@
     </script>
 
 
-<div id="status">
-</div>
+
 
 </body>
 </html>
