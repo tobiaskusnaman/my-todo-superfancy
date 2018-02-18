@@ -4,9 +4,9 @@ const todo = require('../models/todo');
 class todoController {
   static create(req,res){
     let newTodo = {
-      name : req.headers.token.data.name,
-      duedate : new Date(),
-      userId : req.headers.token.data._id,
+      name : req.headers.newtodo,
+      createdAt : new Date(),
+      userId : req.headers.userDecoded.data._id,
       status : false
     }
     todo.create(newTodo)
@@ -38,9 +38,28 @@ class todoController {
     })
   }
 
+  static findBy_userId(req,res){
+    todo.find({
+      'userId' : req.headers.userDecoded.data._id
+    })
+    .then(todos=>{
+      res.status(200).send({
+        msg : 'list todos',
+        data : todos
+      })
+    })
+    .catch(err=>{
+      res.status(500).send({
+        msg : 'find todos error',
+        err
+      })
+    })
+  }
+
+
   static findById(req,res){
     todo.find({
-      '_id' : req.params.id
+      '_id' : req.headers.userDecoded.data._id
     })
     .then(todos=>{
       res.status(200).send({

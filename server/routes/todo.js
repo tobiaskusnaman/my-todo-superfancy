@@ -9,11 +9,10 @@ router.get('/findAll', todo.findAll)
 router.get('/findIncomplete', authentication, todo.findIncomplete)
 router.get('/findComplete', authentication, todo.findComplete)
 
-
 router.get('/complete', todo.complete)
 router.get('/incomplete', todo.incomplete)
-router.get('/:id', todo.findById);
+router.get('/findBy_userId', authentication, todo.findBy_userId);
 router.put('/:id', todo.edit)
-router.delete('/:id', todo.remove)
+router.delete('/:id', authentication, todo.remove)
 
 module.exports = router;

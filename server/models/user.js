@@ -9,6 +9,7 @@ var UserSchema = new Schema({
   name : String,
   picture : String,
   role : String,
+  managerId : [this]
 });
 
 module.exports = mongoose.model('User', UserSchema)
