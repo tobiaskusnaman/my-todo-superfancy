@@ -10,6 +10,7 @@ function logOut(){
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
+    console.log(response.status);
     if (response.status == 'connected') {
       $('#logInPop').hide()
       $('#logoutButton').show()
@@ -57,9 +58,6 @@ function logOut(){
     FB.api('/me', {fields : 'id,name,email,picture'},function(response) {
       console.log('Successful login for: ' + response.name);
 
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-        console.log('Manager Key :',$('#manager-key').val());
 
         axios.post('http://localhost:3000/',{
           data:response,

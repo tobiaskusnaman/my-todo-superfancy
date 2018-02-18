@@ -5,45 +5,198 @@
   <link rel="stylesheet" href="./style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.js"></script>
-
+  <script src="https://unpkg.com/vue"></script>
 <title>Facebook Login JavaScript Example</title>
 <meta charset="UTF-8">
 </head>
 <body>
+  <div id="app">
+    <login-component v-if="loginPage"> </login-component>
 
-  <fb:login-button id="logInPop"scope="public_profile,email" onlogin="checkLoginState();">
-  </fb:login-button>
-  <br>
-  <div id="status">
+    <home-component v-if="homePage"> </home-component>
+
   </div>
-  <a class="button is-danger" id="logoutButton" onclick="logOut()">Logout</a>
-    <input id="manager-key"type="text" placeholder="Manager key">
 
-  <br>
-  <br>
-  <br>
-
-    <a class="button is-black" onclick="create()">Create</a>
-    <a class="button is-primary" onclick="findAlltodo()">find all to do</a>
-
-
-    <a class="button is-warning" onclick="findComplete()">findComplete</a>
-    <a class="button is-danger" onclick="findIncomplete()">findIncomplete</a>
-
-    <br>
-
-    <div id="logoutMsg">
-
+<!-- LOGIN TEMPLATE -->
+  <template id="login-template">
+    <div>
+      <section class="hero is-success is-fullheight">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+              Login
+            </h1>
+            <fb:login-button id="logInPop"scope="public_profile,email" onlogin="checkLoginState();" @click="getHomePage"></fb:login-button>
+            <h2 class="subtitle">
+            </h2>
+          </div>
+        </div>
+      </section>
     </div>
-    <br><br>
+  </template>
 
-    <script src="./fbLogin.js"></script>
-    <script src="./functions.js">
+  <!-- HOME TEMPLATE -->
+  <template id="home-template">
+    <div>
+      <nav class="navbar is-link">
+        <div class="navbar-burger" data-target="navMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+        </div>
+        <div class="navbar-menu" id="navMenu">
+          <div class="navbar-start">
+            <a class="navbar-item">
+              Home
+            </a>
+          </div>
 
-    </script>
+          <div class="navbar-end">
+            <a class="navbar-item">
+              <fb:login-button id="logInPop"scope="public_profile,email" onlogin="checkLoginState();">
+              </fb:login-button>
+            </a>
+            <a class="navbar-item" id="logoutButton" onclick="logOut()">
+              Log Out
+                <input id="manager-key"type="text" placeholder="Manager key">
+            </a>
+          </div>
+        </div>
+      </nav>
+
+        <div class="container">
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <nav class="panel">
+                  <p class="panel-heading">
+                    repositories
+                  </p>
+                  <div class="panel-block">
+                    <p class="control has-icons-left">
+                      <input class="input is-small" type="text" placeholder="search">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-search"></i>
+                      </span>
+                    </p>
+                  </div>
+                  <p class="panel-tabs">
+                    <a class="is-active">all</a>
+                    <a>public</a>
+                    <a>private</a>
+                    <a>sources</a>
+                    <a>forks</a>
+                  </p>
+                  <a class="panel-block is-active">
+                    <span class="panel-icon">
+                      <i class="fas fa-book"></i>
+                    </span>
+                    bulma
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <i class="fas fa-book"></i>
+                    </span>
+                    marksheet
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <i class="fas fa-book"></i>
+                    </span>
+                    minireset.css
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <i class="fas fa-book"></i>
+                    </span>
+                    jgthms.github.io
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <i class="fas fa-code-branch"></i>
+                    </span>
+                    daniellowtw/infboard
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <i class="fas fa-code-branch"></i>
+                    </span>
+                    mojs
+                  </a>
+                  <label class="panel-block">
+                    <input type="checkbox">
+                    remember me
+                  </label>
+                  <div class="panel-block">
+                    <button class="button is-link is-outlined is-fullwidth">
+                      reset all filters
+                    </button>
+                  </div>
+                </nav>
+            </div>
+            <div class="column is-two-thirds">
+              <section class="hero is-info">
+              <div class="hero-body">
+                <div class="container">
+                  <div class="columns is-vcentered">
+                      <h1 class="title">
+                        Thanks for logging in, #Nama
+                      </h1>
+                    </div>
+                    <div class="column is-two-fifths">
+                            <div class="field is-grouped">
+                              <div class="control has-icons-left is-expanded">
+                                <input type="text" id="newToDo" class="input" placeholder="What is your main focus for today?" required="">
+                              </div>
+                              <div class="control">
+                                <input type="submit" @click="create()" class="button is-white is-outlined">
+                              </div>
+                            </div>
+                      </div>
+                  </section>
+                  <h1>To Do </h1>
+                  <table class="table">
+                    <tr>
+                      <th>No</th>
+                      <th>To Do</th>
+                      <th>Due Date</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                    <tr v-for="(todo,i) in todos" :id=todo._id>
+                      <td>{{i+1}}</td>
+                      <td>{{todo.name}}</td>
+                      <td>{{todo.dueDate}}</td>
+                      <td>{{todo.status}}</td>
+                      <td>
+                        <button type="button" name="button">Edit</button>
+                        <button type="button" name="button">Delete</button>
+                      </td>
+                    </tr>
+
+                  </table>
+
+                  <a class="button is-black" onclick="create()">Create</a>
+                  <a class="button is-primary" onclick="findAlltodo()">find all to do</a>
 
 
+                  <a class="button is-warning" onclick="findComplete()">findComplete</a>
+                  <a class="button is-danger" onclick="findIncomplete()">findIncomplete</a>
 
 
+                  <div id="logoutMsg">
+
+                  </div>
+        </div>
+      </div>
+      <!-- Main container -->
+        <div class="container">
+
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="./fbLogin.js"></script>
+  <script src="./functions.js"></script>
 </body>
 </html>
