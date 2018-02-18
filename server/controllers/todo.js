@@ -76,10 +76,14 @@ class todoController {
   }
 
   static edit(req,res){
+    // console.log('--------');
+    console.log(req.headers);
+    console.log(req.headers.id);
+    console.log(req.headers.name);
     todo.findOneAndUpdate({
-      '_id' : req.params.id
+      '_id' : req.headers.id
     }, {
-      name : req.body.name
+      name : req.headers.name
     })
     .then(todo => {
       res.status(200).send({
@@ -152,7 +156,7 @@ class todoController {
 
   static complete(req,res){
     todo.findOneAndUpdate({
-      '_id' : req.params.id
+      '_id' : req.headers.todoid
     }, {
       'status' : true
     })
@@ -173,7 +177,7 @@ class todoController {
 
   static incomplete(req,res){
     todo.findOneAndUpdate({
-      '_id' : req.params.id
+      '_id' : req.headers.todoid
     }, {
       'status' : false
     })

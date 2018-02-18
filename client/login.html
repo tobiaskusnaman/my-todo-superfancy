@@ -59,7 +59,6 @@
             </a>
             <a class="navbar-item" id="logoutButton" onclick="logOut()">
               Log Out
-                <input id="manager-key"type="text" placeholder="Manager key">
             </a>
           </div>
         </div>
@@ -173,32 +172,31 @@
                         <button v-else type="button" name="button" @click="complete(todo._id)">Complete</button>
                       </td>
                       <td>
-                        <button type="button" name="button">Edit</button>
+                        <button type="button" name="button" @click="getModalEdit(todo._id)">Edit</button>
                         <button type="button" name="button" @click="deleteToDo(todo._id)">Delete</button>
-                      </td>
-                      <td>
-                        {{todo.status}}
                       </td>
                     </tr>
 
                   </table>
-
-                  <a class="button is-black" onclick="create()">Create</a>
-                  <a class="button is-primary" onclick="findAlltodo()">find all to do</a>
-
-
-                  <a class="button is-warning" onclick="findComplete()">findComplete</a>
-                  <a class="button is-danger" onclick="findIncomplete()">findIncomplete</a>
-
-
-                  <div id="logoutMsg">
-
-                  </div>
+          </div>
         </div>
       </div>
-      <!-- Main container -->
-        <div class="container">
-
+      <div class="modal" id="modalEdit">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Edit To Do</p>
+            <button class="delete" aria-label="close" @click="closeModalToDo"></button>
+          </header>
+          <section class="modal-card-body">
+            Name
+            <input id="todoName" type="text" name="" value="">
+            <input id="todoId" type="hidden" value="">
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success" @click="editToDo">Save changes</button>
+            <button class="button" @click="closeModalToDo">Cancel</button>
+          </footer>
         </div>
       </div>
     </div>

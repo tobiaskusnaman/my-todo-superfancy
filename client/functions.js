@@ -151,10 +151,66 @@ Vue.component('home-component', {
       let indexCompletedToDo = self.todos.findIndex(todo => {
         return todo._id == id
       })
-
       self.todos[indexCompletedToDo].status = !self.todos[indexCompletedToDo].status
+      if (self.todos[indexCompletedToDo].status) {
+        axios.get('http://localhost:3000/todo/complete',{
+          headers : {
+            todoId : id
+          }
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      } else {
+        axios.get('http://localhost:3000/todo/incomplete',{
+          headers : {
+            todoId : id
+          }
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }
 
-      console.log(self.todos[indexCompletedToDo]);
+    },
+    getModalEdit(id){
+      let self = this
+      document.getElementById('modalEdit').classList.add('is-active')
+      let editedToDo = self.todos.find(todo => {
+        return todo._id == id
+      })
+      document.getElementById('todoName').value = editedToDo.name
+      document.getElementById('todoId').value = editedToDo._id
+    },
+    closeModalToDo(){
+      document.getElementById('modalEdit').classList.remove('is-active')
+    },
+    editToDo(){
+      let editId = document.getElementById('todoId').value
+      let editToDoName = document.getElementById('todoName').value
+      let self = this
+      let indexEditToDo = self.todos.findIndex(todo => {
+        return todo._id == editId
+      })
+      self.todos[indexEditToDo].name = editToDoName
+      axios.put('http://localhost:3000/todo/', {}, {
+        headers : {
+          id : editId,
+          name : editToDoName
+        }
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
   },
   created: function () {
