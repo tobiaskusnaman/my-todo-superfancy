@@ -97,7 +97,7 @@ class todoController {
 
   static remove(req,res){
     todo.remove({
-      '_id' : req.params.id
+      '_id' : req.headers.todoid
     })
     .then(todo => {
       res.status(200).send({

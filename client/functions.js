@@ -88,7 +88,10 @@ Vue.component('home-component', {
   template : '#home-template',
   data: function () {
     return {
-      todos: []
+      todos: [],
+      styleToDo : {
+        'text-decoration':'line-through'
+      }
     }
   },
   methods : {
@@ -108,6 +111,50 @@ Vue.component('home-component', {
       .catch(function (error) {
         console.log(error);
       });
+    },
+    deleteToDo(id) {
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this to do",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          swal("Poof! Your to do has been deleted!", {
+            icon: "success",
+          });
+          let self = this
+          let indexDeletedToDo = self.todos.findIndex(todo => {
+              return todo._id == id
+          })
+          self.todos.splice(indexDeletedToDo,1)
+          axios.delete('http://localhost:3000/todo',{
+            headers : {
+              todoId : id
+            }
+          })
+          .then(response => {
+            console.log(response);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+        } else {
+          swal("Your to do is safe!");
+        }
+      });
+    },
+    complete(id){
+      let self = this
+      let indexCompletedToDo = self.todos.findIndex(todo => {
+        return todo._id == id
+      })
+
+      self.todos[indexCompletedToDo].status = !self.todos[indexCompletedToDo].status
+
+      console.log(self.todos[indexCompletedToDo]);
     }
   },
   created: function () {

@@ -6,7 +6,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.js"></script>
   <script src="https://unpkg.com/vue"></script>
-<title>Facebook Login JavaScript Example</title>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<title>To Do Fancz</title>
 <meta charset="UTF-8">
 </head>
 <body>
@@ -162,14 +163,21 @@
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
-                    <tr v-for="(todo,i) in todos" :id=todo._id>
+                    <tr v-for="(todo,i) in todos" :id=todo._id class='todos'>
                       <td>{{i+1}}</td>
-                      <td>{{todo.name}}</td>
+                      <td v-if="todo.status" :style="styleToDo"> {{todo.name}} </td>
+                      <td v-else >{{todo.name}}</td>
                       <td>{{todo.dueDate}}</td>
-                      <td>{{todo.status}}</td>
+                      <td>
+                        <button v-if="todo.status" type="button" name="button" @click="complete(todo._id)">Incomplete</button>
+                        <button v-else type="button" name="button" @click="complete(todo._id)">Complete</button>
+                      </td>
                       <td>
                         <button type="button" name="button">Edit</button>
-                        <button type="button" name="button">Delete</button>
+                        <button type="button" name="button" @click="deleteToDo(todo._id)">Delete</button>
+                      </td>
+                      <td>
+                        {{todo.status}}
                       </td>
                     </tr>
 
