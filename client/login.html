@@ -139,7 +139,7 @@
                 <div class="container">
                   <div class="columns is-vcentered">
                       <h1 class="title">
-                        Thanks for logging in, #Nama
+                        Hello #Name
                       </h1>
                     </div>
                     <div class="column is-two-fifths">
@@ -190,8 +190,8 @@
           </header>
           <section class="modal-card-body">
             Name
-            <input id="todoName" type="text" name="" value="">
-            <input id="todoId" type="hidden" value="">
+            <input v-model="todoName" type="text" name="" value="">
+            <input v-model="todoId" type="hidden" value="">
           </section>
           <footer class="modal-card-foot">
             <button class="button is-success" @click="editToDo">Save changes</button>

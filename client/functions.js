@@ -89,6 +89,8 @@ Vue.component('home-component', {
   data: function () {
     return {
       todos: [],
+      todoName : '',
+      todoId : '',
       styleToDo : {
         'text-decoration':'line-through'
       }
@@ -185,24 +187,22 @@ Vue.component('home-component', {
       let editedToDo = self.todos.find(todo => {
         return todo._id == id
       })
-      document.getElementById('todoName').value = editedToDo.name
-      document.getElementById('todoId').value = editedToDo._id
+      this.todoName = editedToDo.name
+      this.todoId = editedToDo._id
     },
     closeModalToDo(){
       document.getElementById('modalEdit').classList.remove('is-active')
     },
     editToDo(){
-      let editId = document.getElementById('todoId').value
-      let editToDoName = document.getElementById('todoName').value
       let self = this
       let indexEditToDo = self.todos.findIndex(todo => {
-        return todo._id == editId
+        return todo._id == this.todoId
       })
-      self.todos[indexEditToDo].name = editToDoName
+      self.todos[indexEditToDo].name = this.todoName
       axios.put('http://localhost:3000/todo/', {}, {
         headers : {
-          id : editId,
-          name : editToDoName
+          id : self.todoId,
+          name : self.todoName
         }
       })
       .then(response => {
