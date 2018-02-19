@@ -47,11 +47,10 @@ Vue.component('home-component', {
       axios.post('http://localhost:3000/todo',{}, {
         headers : {
           token : localStorage.getItem('tokenJwt'),
-          newToDo : document.getElementById('newToDo').value
+          newToDo : this.todoName
         }
       })
       .then(function (response) {
-        console.log(response);
         let result = response.data.data
         self.todos.push(result)
       })

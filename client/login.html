@@ -145,7 +145,7 @@
                     <div class="column is-two-fifths">
                             <div class="field is-grouped">
                               <div class="control has-icons-left is-expanded">
-                                <input type="text" id="newToDo" class="input" placeholder="What is your main focus for today?" required="">
+                                <input type="text" v-model="todoName" class="input" placeholder="What is your main focus for today?" required="">
                               </div>
                               <div class="control">
                                 <input type="submit" @click="create()" class="button is-white is-outlined">
