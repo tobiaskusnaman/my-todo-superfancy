@@ -23,64 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-function findAlltodo() {
-  axios.get('http://localhost:3000/todo/findAll')
-  .then(function (response){
-    console.log(response);
-  })
-  .catch(function(error){
-    console.log(error);
-  })
-}
-
-function findComplete() {
-  axios.get('http://localhost:3000/todo/findComplete',{
-    headers : {
-      token : localStorage.getItem('tokenJwt')
-    }
-  })
-  .then(response=>{
-    console.log(response);
-  })
-  .catch(err=>{
-    console.log(err);
-  })
-}
-
-function findIncomplete() {
-  axios.get('http://localhost:3000/todo/findComplete',{
-    headers : {
-      token : localStorage.getItem('tokenJwt')
-    }
-  })
-  .then(response=>{
-    console.log(response);
-  })
-  .catch(err=>{
-    console.log(err);
-  })
-}
-function findIncomplete() {
-  axios.get('http://localhost:3000/todo/findIncomplete',{
-    headers : {
-      token : localStorage.getItem('tokenJwt')
-    }
-  })
-  .then(response=>{
-    console.log(response);
-  })
-  .catch(err=>{
-    console.log(err);
-  })
-}
-
 Vue.component('login-component', {
   template: '#login-template',
   methods : {
-    getHomePage(){
-      return console.log('--------');
-      console.log('123');
-    }
   }
 })
 
@@ -194,6 +139,7 @@ Vue.component('home-component', {
       document.getElementById('modalEdit').classList.remove('is-active')
     },
     editToDo(){
+      this.closeModalToDo()
       let self = this
       let indexEditToDo = self.todos.findIndex(todo => {
         return todo._id == this.todoId
