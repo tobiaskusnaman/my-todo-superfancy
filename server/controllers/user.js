@@ -116,38 +116,23 @@ class UserController {
       _id : req.headers.userDecoded.data._id
     })
     .then(user => {
-
-      console.log(user);
-
-
       let itemObj = {
         itemId : req.headers.itemid
       }
-      console.log(itemObj);
-      console.log(user.bucket);
-
-      // console.log('INI BUCKET',user.bucket);
       let basket = user.bucket.push(itemObj)
-      console.log('INI BASKET',basket);
-      console.log('=======>>>>>>>>>>>>',user);
-      // user.bucket.push()
-      // User.findOneAndUpdate({
-      //   '_id' : req.headers.userDecoded.data._id
-      // }, {
-      //   bucket : this.bucket.push(req.headers.itemid)
-      // })
-      // .then(user => {
-      //   res.send({
-      //     msg : 'bucket has been added',
-      //     data : user
-      //   })
-      // })
-      // .catch(err => {
-      //   res.send({
-      //     msg : 'error adding to bucket',
-      //     err
-      //   })
-      // })
+      user.save(function (err,data){
+        if (err) {
+          res.send({
+            msg : 'add to bucket error',
+            err
+          })
+        } else {
+          res.send({
+            msg : 'add to basket issuccess',
+            data
+          })
+        }
+      })
     })
     .catch(err => {
       res.send(err)
