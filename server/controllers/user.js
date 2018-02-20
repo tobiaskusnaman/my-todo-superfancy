@@ -38,7 +38,6 @@ class UserController {
         });
 
         keyValidation.then(response => {
-          console.log(response);
           User.create(newUser)
           .then(user => {
             jwt.sign({ data : user }, 'secret', function(err, tokenJwt) {
@@ -86,6 +85,76 @@ class UserController {
       })
     })
   }
+
+  static quotes(req,res){
+    var quotes = require('awesome-quotes');
+      quotes.getQuote('computers','en', function(err, data) {
+          if(!err) {
+            res.status(200).send({
+              msg : 'get quote is success',
+              data
+            })
+          } else {
+            res.send({
+              msg : 'failed to get quote',
+              err
+            })
+          }
+
+      });
+  }
+
+  static getInfo(req,res){
+    res.send({
+      msg : 'data user',
+      data : req.headers.userDecoded
+    })
+  }
+
+  static addBucket(req,res){
+    User.findOne({
+      _id : req.headers.userDecoded.data._id
+    })
+    .then(user => {
+
+      console.log(user);
+
+
+      let itemObj = {
+        itemId : req.headers.itemid
+      }
+      console.log(itemObj);
+      console.log(user.bucket);
+
+      // console.log('INI BUCKET',user.bucket);
+      let basket = user.bucket.push(itemObj)
+      console.log('INI BASKET',basket);
+      console.log('=======>>>>>>>>>>>>',user);
+      // user.bucket.push()
+      // User.findOneAndUpdate({
+      //   '_id' : req.headers.userDecoded.data._id
+      // }, {
+      //   bucket : this.bucket.push(req.headers.itemid)
+      // })
+      // .then(user => {
+      //   res.send({
+      //     msg : 'bucket has been added',
+      //     data : user
+      //   })
+      // })
+      // .catch(err => {
+      //   res.send({
+      //     msg : 'error adding to bucket',
+      //     err
+      //   })
+      // })
+    })
+    .catch(err => {
+      res.send(err)
+    })
+
+  }
+
 
 }
 

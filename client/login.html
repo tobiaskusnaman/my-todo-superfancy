@@ -7,7 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.js"></script>
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<title>To Do Fancz</title>
+<title>Bucket List</title>
 <meta charset="UTF-8">
 </head>
 <body>
@@ -69,67 +69,31 @@
             <div class="column is-one-quarter">
               <nav class="panel">
                   <p class="panel-heading">
-                    repositories
+                      FILL YOUR BUCKET LIST
                   </p>
                   <div class="panel-block">
                     <p class="control has-icons-left">
-                      <input class="input is-small" type="text" placeholder="search">
+                      <input class="input is-small" type="text" placeholder="search done bucket list">
                       <span class="icon is-small is-left">
                         <i class="fas fa-search"></i>
                       </span>
                     </p>
                   </div>
                   <p class="panel-tabs">
-                    <a class="is-active">all</a>
-                    <a>public</a>
-                    <a>private</a>
-                    <a>sources</a>
-                    <a>forks</a>
+                    100 MORE TO GO
                   </p>
-                  <a class="panel-block is-active">
-                    <span class="panel-icon">
-                      <i class="fas fa-book"></i>
-                    </span>
-                    bulma
-                  </a>
-                  <a class="panel-block">
-                    <span class="panel-icon">
-                      <i class="fas fa-book"></i>
-                    </span>
-                    marksheet
-                  </a>
-                  <a class="panel-block">
-                    <span class="panel-icon">
-                      <i class="fas fa-book"></i>
-                    </span>
-                    minireset.css
-                  </a>
-                  <a class="panel-block">
-                    <span class="panel-icon">
-                      <i class="fas fa-book"></i>
-                    </span>
-                    jgthms.github.io
-                  </a>
-                  <a class="panel-block">
-                    <span class="panel-icon">
-                      <i class="fas fa-code-branch"></i>
-                    </span>
-                    daniellowtw/infboard
-                  </a>
-                  <a class="panel-block">
-                    <span class="panel-icon">
-                      <i class="fas fa-code-branch"></i>
-                    </span>
-                    mojs
-                  </a>
-                  <label class="panel-block">
-                    <input type="checkbox">
-                    remember me
-                  </label>
+
                   <div class="panel-block">
-                    <button class="button is-link is-outlined is-fullwidth">
-                      reset all filters
-                    </button>
+                    <ul>
+                      <li>1</li>
+                      <li>2</li>
+                      <li>1</li>
+                      <li>2</li>
+                      <li>1</li>
+                      <li>2</li>
+                      <li>1</li>
+                      <li>2</li>
+                    </ul>
                   </div>
                 </nav>
             </div>
@@ -139,7 +103,7 @@
                 <div class="container">
                   <div class="columns is-vcentered">
                       <h1 class="title">
-                        Hello #Name
+                        Hello, {{user.name}}!
                       </h1>
                     </div>
                     <div class="column is-two-fifths">
@@ -153,12 +117,10 @@
                             </div>
                       </div>
                   </section>
-                  <h1>To Do </h1>
                   <table class="table">
                     <tr>
                       <th>No</th>
                       <th>To Do</th>
-                      <th>Due Date</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -166,7 +128,6 @@
                       <td>{{i+1}}</td>
                       <td v-if="todo.status" :style="styleToDo"> {{todo.name}} </td>
                       <td v-else >{{todo.name}}</td>
-                      <td>{{todo.dueDate}}</td>
                       <td>
                         <button v-if="todo.status" type="button" name="button" @click="complete(todo._id)">Incomplete</button>
                         <button v-else type="button" name="button" @click="complete(todo._id)">Complete</button>
@@ -174,9 +135,8 @@
                       <td>
                         <button type="button" name="button" @click="getModalEdit(todo._id)">Edit</button>
                         <button type="button" name="button" @click="deleteToDo(todo._id)">Delete</button>
-                      </td>
+                        <button type="button" name="button" @click="submitToDo(todo._id)">Submit</button>
                     </tr>
-
                   </table>
           </div>
         </div>
@@ -199,6 +159,16 @@
           </footer>
         </div>
       </div>
+      <footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered" >
+      <p>
+        {{quotes}}
+      </p>
+    </div>
+
+  </div>
+</footer>
     </div>
   </template>
 

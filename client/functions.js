@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
 Vue.component('login-component', {
   template: '#login-template',
   methods : {
+    getHomePage(){
+      return console.log('--------');
+      console.log('123');
+   }
   }
 })
 
@@ -33,6 +37,8 @@ Vue.component('home-component', {
   template : '#home-template',
   data: function () {
     return {
+      user : '',
+      quotes : '',
       todos: [],
       todoName : '',
       todoId : '',
@@ -42,6 +48,30 @@ Vue.component('home-component', {
     }
   },
   methods : {
+    getQuotes(){
+      let self = this
+      axios.get('http://localhost:3000/quotes',{})
+      .then(function (response) {
+        self.quotes = response.data.data.text
+      })
+      .catch(err => {
+        res.send(err)
+      })
+    },
+    getInfo(){
+      let self = this
+      axios.post('http://localhost:3000/users',{},{
+        headers : {
+          token : localStorage.getItem('tokenJwt')
+        }
+      })
+      .then(response => {
+        self.user = response.data.data.data
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    },
     create() {
       let self = this
       axios.post('http://localhost:3000/todo',{}, {
@@ -156,7 +186,22 @@ Vue.component('home-component', {
       .catch(err => {
         console.log(err);
       })
-    }
+    },
+      submitToDo(todoId){
+        let self = this
+        axios.post('http://localhost:3000/users/bucket',{}, {
+          headers : {
+            token : localStorage.getItem('tokenJwt'),
+            itemId : todoId
+          }
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }
   },
   created: function () {
     axios.get('http://localhost:3000/todo/findBy_userId',{
@@ -165,6 +210,8 @@ Vue.component('home-component', {
       }
     })
     .then(response => {
+      this.getInfo()
+      this.getQuotes()
       this.todos = response.data.data
     })
     .catch(err => {

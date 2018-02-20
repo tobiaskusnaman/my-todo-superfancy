@@ -9,7 +9,9 @@ var UserSchema = new Schema({
   name : String,
   picture : String,
   role : String,
-  managerId : [this]
+  bucket : [{
+    toDoId : {type: Schema.Types.ObjectId, ref: 'toDo' }
+  }]
 });
 
 module.exports = mongoose.model('User', UserSchema)

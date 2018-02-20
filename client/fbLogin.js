@@ -8,6 +8,7 @@ function logOut(){
   }
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
+
     console.log('statusChangeCallback');
     console.log(response);
     console.log(response.status);
@@ -57,13 +58,13 @@ function logOut(){
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', {fields : 'id,name,email,picture'},function(response) {
       console.log('Successful login for: ' + response.name);
-
-
         axios.post('http://localhost:3000/',{
           data:response,
           managerKey : $('#manager-key').val()
         })
         .then(response => {
+          console.log('---------');
+          console.log('=====>>>>>>',response);
           localStorage.setItem('tokenJwt',response.data.tokenJwt)
         })
         .catch(err=>{
