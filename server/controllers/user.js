@@ -1,5 +1,4 @@
 const User = require('../models/user');
-// const Manager = require('../models/manager');
 var jwt = require('jsonwebtoken');
 
 class UserController {
@@ -103,23 +102,31 @@ class UserController {
 
       });
   }
-
   static getInfo(req,res){
-    res.send({
-      msg : 'data user',
-      data : req.headers.userDecoded
+    User.findOne({
+      _id : req.headers.userDecoded.data._id
     })
+    .populate('bucket')
+    .exec(function(err, userPopulate) {
+      if (!err) {
+        res.send({
+          msg : 'get info',
+          data : userPopulate
+        })
+        console.log('GAK ERROR',userPopulate);
+      } else {
+        res.send(err)
+      }
+    });
   }
 
   static addBucket(req,res){
     User.findOne({
-      _id : req.headers.userDecoded.data._id
+      _id : '5a8075115a3fbf312c2bbdbf'
     })
     .then(user => {
-      let itemObj = {
-        itemId : req.headers.itemid
-      }
-      let basket = user.bucket.push(itemObj)
+      user.bucket.push(req.headers.itemid)
+
       user.save(function (err,data){
         if (err) {
           res.send({
@@ -128,13 +135,14 @@ class UserController {
           })
         } else {
           res.send({
-            msg : 'add to basket issuccess',
+            msg : 'add to basket is success',
             data
           })
         }
       })
     })
     .catch(err => {
+      console.log(err);
       res.send(err)
     })
 

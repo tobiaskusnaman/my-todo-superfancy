@@ -37,6 +37,7 @@ Vue.component('home-component', {
   template : '#home-template',
   data: function () {
     return {
+      buckets : '',
       user : '',
       quotes : '',
       todos: [],
@@ -66,7 +67,8 @@ Vue.component('home-component', {
         }
       })
       .then(response => {
-        self.user = response.data.data.data
+        self.buckets = response.data.data.bucket
+        self.user = response.data.data
       })
       .catch(err => {
         console.log(err);
@@ -187,21 +189,44 @@ Vue.component('home-component', {
         console.log(err);
       })
     },
-      submitToDo(todoId){
-        let self = this
-        axios.post('http://localhost:3000/users/bucket',{}, {
-          headers : {
-            token : localStorage.getItem('tokenJwt'),
-            itemId : todoId
-          }
-        })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(err => {
-          console.log(err);
-        })
-      }
+    submitToDo(todo){
+      this.deleteAfterSubmit(todo._id)
+      let self = this
+      this.buckets.push(todo)
+      axios.post('http://localhost:3000/users/bucket',{}, {
+        headers : {
+          token : localStorage.getItem('tokenJwt'),
+          itemId : todo._id
+        }
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    },
+    deleteAfterSubmit(id){
+      swal("Good job!", "You did it!", "success", {
+        button: "Aww yeaa!",
+      });
+      let self= this
+      let indexDeletedToDo = self.todos.findIndex(todo => {
+          return todo._id == id
+      })
+      self.todos.splice(indexDeletedToDo,1)
+      axios.delete('http://localhost:3000/todo',{
+        headers : {
+          todoId : id
+        }
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }
   },
   created: function () {
     axios.get('http://localhost:3000/todo/findBy_userId',{

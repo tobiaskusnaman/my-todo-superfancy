@@ -47,9 +47,6 @@
         </div>
         <div class="navbar-menu" id="navMenu">
           <div class="navbar-start">
-            <a class="navbar-item">
-              Home
-            </a>
           </div>
 
           <div class="navbar-end">
@@ -80,19 +77,12 @@
                     </p>
                   </div>
                   <p class="panel-tabs">
-                    100 MORE TO GO
+                    {{100 - buckets.length}} MORE TO GO
                   </p>
 
                   <div class="panel-block">
                     <ul>
-                      <li>1</li>
-                      <li>2</li>
-                      <li>1</li>
-                      <li>2</li>
-                      <li>1</li>
-                      <li>2</li>
-                      <li>1</li>
-                      <li>2</li>
+                      <li v-for="(bucket,i) in buckets"> {{i+1}}. {{bucket.name}}</li>
                     </ul>
                   </div>
                 </nav>
@@ -135,7 +125,7 @@
                       <td>
                         <button type="button" name="button" @click="getModalEdit(todo._id)">Edit</button>
                         <button type="button" name="button" @click="deleteToDo(todo._id)">Delete</button>
-                        <button type="button" name="button" @click="submitToDo(todo._id)">Submit</button>
+                        <button v-if="todo.status" type="button" name="button" @click="submitToDo(todo)">Add to bucket</button>
                     </tr>
                   </table>
           </div>

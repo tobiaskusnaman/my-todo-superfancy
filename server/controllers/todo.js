@@ -76,10 +76,6 @@ class todoController {
   }
 
   static edit(req,res){
-    // console.log('--------');
-    console.log(req.headers);
-    console.log(req.headers.id);
-    console.log(req.headers.name);
     todo.findOneAndUpdate({
       '_id' : req.headers.id
     }, {
