@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
-
 mongoose.connect('mongodb://localhost/toDoDb');
 
 var toDoSchema = new Schema({
