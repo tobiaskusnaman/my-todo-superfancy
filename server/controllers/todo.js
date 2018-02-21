@@ -1,6 +1,5 @@
 const todo = require('../models/todo');
 
-
 class todoController {
   static create(req,res){
     let newTodo = {
