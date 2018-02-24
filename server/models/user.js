@@ -8,7 +8,6 @@ var UserSchema = new Schema({
   email : String,
   name : String,
   picture : String,
-  role : String,
   bucket : [{
     type: String
   }]

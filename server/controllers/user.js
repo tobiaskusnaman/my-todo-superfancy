@@ -17,52 +17,32 @@ class UserController {
           })
         });
       } else {
-
         let newUser = {
           name : req.body.data.name,
           email : req.body.data.email,
           picture : req.body.data.picture.data.url
         }
-
-        var keyValidation = new Promise(function(resolve, reject) {
-          if (req.body.managerKey) {
-            if (req.body.managerKey.toLowerCase() == 'manager') {
-              resolve(newUser.role = 'manager')
+        User.create(newUser)
+        .then(user => {
+          jwt.sign({ data : user }, 'secret', function(err, tokenJwt) {
+            if (!err && tokenJwt) {
+              res.status(200).send({
+                msg : 'user has been created',
+                tokenJwt
+              })
             } else {
-              reject('incorrect key')
+              res.status(500).send({
+                msg : 'jwt error',
+                err
+              })
             }
-          } else {
-            resolve(newUser.role = 'employee')
-          }
-        });
-
-        keyValidation.then(response => {
-          User.create(newUser)
-          .then(user => {
-            jwt.sign({ data : user }, 'secret', function(err, tokenJwt) {
-              if (!err && tokenJwt) {
-                res.status(200).send({
-                  msg : 'user has been created',
-                  tokenJwt
-                })
-              } else {
-                res.status(500).send({
-                  msg : 'jwt error',
-                  err
-                })
-              }
-            });
-          })
-          .catch(err=>{
-            res.status(500).send({
-              msg : 'register failed',
-              err
-            })
-          })
+          });
         })
-        .catch(err => {
-          console.log(err);
-          res.status(500).send(err)
+        .catch(err=>{
+          res.status(500).send({
+            msg : 'register failed',
+            err
+          })
         })
       }
     })
