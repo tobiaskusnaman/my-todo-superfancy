@@ -24,20 +24,23 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 Vue.component('login-component', {
-  template: '#login-template',
-  methods : {
-    getHomePage(){
-      return console.log('--------');
-      console.log('123');
-   }
-  }
+  template: '#login-template'
+  // created: function () {
+  //   console.log('ANAK');
+  //   let token = localStorage.getItem('tokenJwt')
+  //   console.log(token);
+  //   if (token) {
+  //     console.log('ankanak');
+  //     this.loginPage = true
+  //   }
+  // }
 })
 
 Vue.component('home-component', {
   template : '#home-template',
   data: function () {
     return {
-      buckets : '',
+      buckets : [],
       user : '',
       quotes : '',
       todos: [],
@@ -49,6 +52,10 @@ Vue.component('home-component', {
     }
   },
   methods : {
+    logOut () {
+      localStorage.clear();
+      console.log('ini log out');
+    },
     getQuotes(){
       let self = this
       axios.get('http://localhost:3000/quotes',{})
@@ -110,6 +117,7 @@ Vue.component('home-component', {
           self.todos.splice(indexDeletedToDo,1)
           axios.delete('http://localhost:3000/todo',{
             headers : {
+              token : localStorage.getItem('tokenJwt'),
               todoId : id
             }
           })
@@ -133,6 +141,7 @@ Vue.component('home-component', {
       if (self.todos[indexCompletedToDo].status) {
         axios.get('http://localhost:3000/todo/complete',{
           headers : {
+            token : localStorage.getItem('tokenJwt'),
             todoId : id
           }
         })
@@ -145,6 +154,7 @@ Vue.component('home-component', {
       } else {
         axios.get('http://localhost:3000/todo/incomplete',{
           headers : {
+            token : localStorage.getItem('tokenJwt'),
             todoId : id
           }
         })
@@ -178,6 +188,7 @@ Vue.component('home-component', {
       self.todos[indexEditToDo].name = this.todoName
       axios.put('http://localhost:3000/todo/', {}, {
         headers : {
+          token : localStorage.getItem('tokenJwt'),
           id : self.todoId,
           name : self.todoName
         }
@@ -192,11 +203,12 @@ Vue.component('home-component', {
     submitToDo(todo){
       this.deleteAfterSubmit(todo._id)
       let self = this
-      this.buckets.push(todo)
+      this.buckets.push(todo.name)
+      console.log('INI TODO NAME', todo.name);
       axios.post('http://localhost:3000/users/bucket',{}, {
         headers : {
           token : localStorage.getItem('tokenJwt'),
-          itemId : todo._id
+          itemName : todo.name
         }
       })
       .then(response => {
@@ -217,6 +229,7 @@ Vue.component('home-component', {
       self.todos.splice(indexDeletedToDo,1)
       axios.delete('http://localhost:3000/todo',{
         headers : {
+          token : localStorage.getItem('tokenJwt'),
           todoId : id
         }
       })
@@ -247,15 +260,15 @@ Vue.component('home-component', {
 
 var app = new Vue({
   el: '#app',
-  data: {
-    loginPage   : true,
-    homePage    : false
+  data: function () {
+    return {
+      isLogin   : false
+    }
   },
   created: function () {
     let token = localStorage.getItem('tokenJwt')
     if (token) {
-      this.loginPage = false,
-      this.homePage = true
+      this.isLogin = true
     }
   },
   methods: {

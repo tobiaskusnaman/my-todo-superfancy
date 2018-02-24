@@ -8,6 +8,7 @@ const todo = require('./routes/todo');
 var index = require('./routes/index');
 var users = require('./routes/users');
 const mongoose = require('mongoose');
+
 mongoose.connect('mongodb://localhost/toDoDb');
 var cors = require('cors')
 

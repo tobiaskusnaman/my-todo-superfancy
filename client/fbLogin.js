@@ -8,9 +8,6 @@ function logOut(){
   }
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-
-    console.log('statusChangeCallback');
-    console.log(response);
     console.log(response.status);
     if (response.status == 'connected') {
       $('#logInPop').hide()
@@ -63,8 +60,6 @@ function logOut(){
           managerKey : $('#manager-key').val()
         })
         .then(response => {
-          console.log('---------');
-          console.log('=====>>>>>>',response);
           localStorage.setItem('tokenJwt',response.data.tokenJwt)
         })
         .catch(err=>{

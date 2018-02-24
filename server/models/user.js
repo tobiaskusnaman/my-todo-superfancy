@@ -10,7 +10,7 @@ var UserSchema = new Schema({
   picture : String,
   role : String,
   bucket : [{
-    type: Schema.Types.ObjectId, ref: 'toDo'
+    type: String
   }]
 });
 

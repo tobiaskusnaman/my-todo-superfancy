@@ -88,45 +88,43 @@ class UserController {
   static quotes(req,res){
     var quotes = require('awesome-quotes');
       quotes.getQuote('computers','en', function(err, data) {
-          if(!err) {
-            res.status(200).send({
-              msg : 'get quote is success',
-              data
-            })
-          } else {
-            res.send({
-              msg : 'failed to get quote',
-              err
-            })
-          }
-
+        if(!err) {
+          res.status(200).send({
+            msg : 'get quote is success',
+            data
+          })
+        } else {
+          res.send({
+            msg : 'failed to get quote',
+            err
+          })
+        }
       });
   }
   static getInfo(req,res){
     User.findOne({
       _id : req.headers.userDecoded.data._id
     })
-    .populate('bucket')
-    .exec(function(err, userPopulate) {
-      if (!err) {
+      .then(userInfo => {
         res.send({
           msg : 'get info',
-          data : userPopulate
+          data : userInfo
         })
-        console.log('GAK ERROR',userPopulate);
-      } else {
-        res.send(err)
-      }
-    });
+      })
+      .catch(err => {
+        res.send({
+          msg: 'failed to retrieve data user',
+          err
+        })
+      })
   }
 
   static addBucket(req,res){
     User.findOne({
-      _id : '5a8075115a3fbf312c2bbdbf'
+      _id : req.headers.userDecoded.data._id
     })
     .then(user => {
-      user.bucket.push(req.headers.itemid)
-
+      user.bucket.push(req.headers.itemname)
       user.save(function (err,data){
         if (err) {
           res.send({
@@ -145,10 +143,7 @@ class UserController {
       console.log(err);
       res.send(err)
     })
-
   }
-
-
 }
 
 
