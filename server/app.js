@@ -9,11 +9,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/toDoDb');
+mongoose.connect('mongodb://todo:todo@ds251598.mlab.com:51598/todo');
 var cors = require('cors')
-
-
-
 var app = express();
 app.use(cors())
 // view engine setup
