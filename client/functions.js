@@ -25,15 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 Vue.component('login-component', {
   template: '#login-template'
-  // created: function () {
-  //   console.log('ANAK');
-  //   let token = localStorage.getItem('tokenJwt')
-  //   console.log(token);
-  //   if (token) {
-  //     console.log('ankanak');
-  //     this.loginPage = true
-  //   }
-  // }
 })
 
 Vue.component('home-component', {
@@ -53,8 +44,7 @@ Vue.component('home-component', {
   },
   methods : {
     logOut () {
-      localStorage.clear();
-      console.log('ini log out');
+      localStorage.clear()
     },
     getQuotes(){
       let self = this
@@ -90,6 +80,7 @@ Vue.component('home-component', {
         }
       })
       .then(function (response) {
+        self.todoName = ''
         let result = response.data.data
         self.todos.push(result)
       })
@@ -204,7 +195,6 @@ Vue.component('home-component', {
       this.deleteAfterSubmit(todo._id)
       let self = this
       this.buckets.push(todo.name)
-      console.log('INI TODO NAME', todo.name);
       axios.post('http://localhost:3000/users/bucket',{}, {
         headers : {
           token : localStorage.getItem('tokenJwt'),
