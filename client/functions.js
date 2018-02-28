@@ -48,7 +48,7 @@ Vue.component('home-component', {
     },
     getQuotes(){
       let self = this
-      axios.get('http://localhost:3000/quotes',{})
+      axios.get('http://35.196.226.247:3000/quotes',{})
       .then(function (response) {
         self.quotes = response.data.data.text
       })
@@ -58,7 +58,7 @@ Vue.component('home-component', {
     },
     getInfo(){
       let self = this
-      axios.post('http://localhost:3000/users',{},{
+      axios.post('http://35.196.226.247:3000/users',{},{
         headers : {
           token : localStorage.getItem('tokenJwt')
         }
@@ -73,7 +73,7 @@ Vue.component('home-component', {
     },
     create() {
       let self = this
-      axios.post('http://localhost:3000/todo',{}, {
+      axios.post('http://35.196.226.247:3000/todo',{}, {
         headers : {
           token : localStorage.getItem('tokenJwt'),
           newToDo : this.todoName
@@ -106,7 +106,7 @@ Vue.component('home-component', {
               return todo._id == id
           })
           self.todos.splice(indexDeletedToDo,1)
-          axios.delete('http://localhost:3000/todo',{
+          axios.delete('http://35.196.226.247:3000/todo',{
             headers : {
               token : localStorage.getItem('tokenJwt'),
               todoId : id
@@ -130,7 +130,7 @@ Vue.component('home-component', {
       })
       self.todos[indexCompletedToDo].status = !self.todos[indexCompletedToDo].status
       if (self.todos[indexCompletedToDo].status) {
-        axios.get('http://localhost:3000/todo/complete',{
+        axios.get('http://35.196.226.247:3000/todo/complete',{
           headers : {
             token : localStorage.getItem('tokenJwt'),
             todoId : id
@@ -143,7 +143,7 @@ Vue.component('home-component', {
           console.log(err);
         })
       } else {
-        axios.get('http://localhost:3000/todo/incomplete',{
+        axios.get('http://35.196.226.247:3000/todo/incomplete',{
           headers : {
             token : localStorage.getItem('tokenJwt'),
             todoId : id
@@ -177,7 +177,7 @@ Vue.component('home-component', {
         return todo._id == this.todoId
       })
       self.todos[indexEditToDo].name = this.todoName
-      axios.put('http://localhost:3000/todo/', {}, {
+      axios.put('http://35.196.226.247:3000/todo/', {}, {
         headers : {
           token : localStorage.getItem('tokenJwt'),
           id : self.todoId,
@@ -195,7 +195,7 @@ Vue.component('home-component', {
       this.deleteAfterSubmit(todo._id)
       let self = this
       this.buckets.push(todo.name)
-      axios.post('http://localhost:3000/users/bucket',{}, {
+      axios.post('http://35.196.226.247:3000/users/bucket',{}, {
         headers : {
           token : localStorage.getItem('tokenJwt'),
           itemName : todo.name
@@ -217,7 +217,7 @@ Vue.component('home-component', {
           return todo._id == id
       })
       self.todos.splice(indexDeletedToDo,1)
-      axios.delete('http://localhost:3000/todo',{
+      axios.delete('http://35.196.226.247:3000/todo',{
         headers : {
           token : localStorage.getItem('tokenJwt'),
           todoId : id
@@ -232,7 +232,7 @@ Vue.component('home-component', {
     }
   },
   created: function () {
-    axios.get('http://localhost:3000/todo/findBy_userId',{
+    axios.get('http://35.196.226.247:3000/todo/findBy_userId',{
       headers : {
         token : localStorage.getItem('tokenJwt')
       }

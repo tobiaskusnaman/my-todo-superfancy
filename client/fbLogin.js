@@ -55,7 +55,7 @@ function logOut(){
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', {fields : 'id,name,email,picture'},function(response) {
       console.log('Successful login for: ' + response.name);
-        axios.post('http://localhost:3000/',{
+        axios.post('http://35.196.226.247:3000/',{
           data:response,
           managerKey : $('#manager-key').val()
         })
