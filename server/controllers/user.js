@@ -10,7 +10,7 @@ class UserController {
       if (user !== null) {
         jwt.sign({
           data: user
-        }, 'secret', { expiresIn: '1h' }, function(err, tokenJwt){
+        }, process.env.SECRET, { expiresIn: '1h' }, function(err, tokenJwt){
           res.status(200).send({
             msg : `${req.body.data.name} is log in`,
             tokenJwt
@@ -24,7 +24,7 @@ class UserController {
         }
         User.create(newUser)
         .then(user => {
-          jwt.sign({ data : user }, 'secret', function(err, tokenJwt) {
+          jwt.sign({ data : user }, process.env.SECRET, function(err, tokenJwt) {
             if (!err && tokenJwt) {
               res.status(200).send({
                 msg : 'user has been created',

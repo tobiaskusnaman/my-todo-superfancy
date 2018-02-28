@@ -13,6 +13,7 @@ mongoose.connect('mongodb://todo:todo@ds251598.mlab.com:51598/todo');
 var cors = require('cors')
 var app = express();
 app.use(cors())
+require('dotenv').config()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
